@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pooh — Backend / Full-Stack Developer</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root{
+    --bg: #FAFAF7;
+    --bg-panel: #F0EEE7;
+    --ink: #181B1D;
+    --ink-muted: #6C716F;
+    --line: #DEDACE;
+    --accent: #E8A33D;      /* caution-light amber, from panel indicators */
+    --accent-dim: #C6882C;
+    --status-green: #3FA772;
+    --radius: 2px;
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection{ background: var(--accent); color: #17191B; }
+
+  a{ color: inherit; text-decoration: none; }
+
+  .mono{ font-family: 'JetBrains Mono', monospace; }
+
+  /* ---------- Status bar (signature element) ---------- */
+  .statusbar{
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 28px;
+    background: rgba(250,250,247,0.88);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--ink-muted);
+  }
+  .statusbar .dot{
+    display: inline-block;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--status-green);
+    margin-right: 8px;
+    box-shadow: 0 0 0 0 rgba(63,167,114,0.5);
+    animation: pulse 2.2s infinite;
+  }
+  @keyframes pulse{
+    0%{ box-shadow: 0 0 0 0 rgba(63,167,114,0.45); }
+    70%{ box-shadow: 0 0 0 6px rgba(63,167,114,0); }
+    100%{ box-shadow: 0 0 0 0 rgba(63,167,114,0); }
+  }
+  .statusbar .right{ display:flex; gap: 24px; }
+  .statusbar span.label{ color: var(--ink); font-weight: 500; }
+
+  section{ padding: 140px 8vw 100px; max-width: 1160px; margin: 0 auto; }
+
+  /* ---------- Hero ---------- */
+  .hero{ padding-top: 180px; }
+  .hero .eyebrow{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent-dim);
+    letter-spacing: 0.12em;
+    margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero .eyebrow::before{
+    content: '';
+    width: 26px; height: 1px;
+    background: var(--accent-dim);
+  }
+  .hero h1{
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(48px, 8vw, 96px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .hero .role{
+    margin-top: 20px;
+    font-size: 19px;
+    color: var(--ink-muted);
+    max-width: 560px;
+  }
+  .hero .role strong{ color: var(--ink); font-weight: 600; }
+
+  .hero .meta-row{
+    margin-top: 46px;
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--line);
+    padding-top: 24px;
+  }
+  .hero .meta-row div{ font-family:'JetBrains Mono', monospace; font-size: 12px; }
+  .hero .meta-row div span.k{ color: var(--ink-muted); display:block; margin-bottom:4px; }
+  .hero .meta-row div span.v{ color: var(--ink); font-size: 13px; }
+
+  /* ---------- Section headers ---------- */
+  .sec-head{
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 48px;
+  }
+  .sec-head .idx{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent-dim);
+    letter-spacing: 0.08em;
+  }
+  .sec-head h2{
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 30px;
+    font-weight: 600;
+  }
+  .sec-head .rule{ flex: 1; height: 1px; background: var(--line); }
+
+  /* ---------- About ---------- */
+  .about-grid{
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  .about-photo{
+    width: 220px; height: 220px;
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-muted);
+    text-align: center;
+    padding: 12px;
+  }
+  .about-text p{ margin-bottom: 18px; color: var(--ink); max-width: 640px; }
+  .about-text .highlight{ color: var(--accent-dim); font-weight: 600; }
+
+  /* ---------- Projects ---------- */
+  .projects-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+  }
+  .project-card{
+    position: relative;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 28px;
+    background: var(--bg);
+    overflow: hidden;
+    transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+  }
+  .project-card:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px -20px rgba(24,27,29,0.25);
+    border-color: var(--accent-dim);
+  }
+  .project-card .tag{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent-dim);
+    letter-spacing: 0.06em;
+    margin-bottom: 14px;
+    display: block;
+  }
+  .project-card h3{
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px;
+    margin-bottom: 10px;
+    transition: color .25s ease;
+  }
+  .project-card:hover h3{ color: var(--accent-dim); }
+  .project-card p{ color: var(--ink-muted); font-size: 14px; margin-bottom: 18px; }
+  .project-card .stack{
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 20px;
+  }
+  .project-card .stack span{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    padding: 4px 8px;
+    border: 1px solid var(--line);
+    color: var(--ink-muted);
+    border-radius: var(--radius);
+  }
+  .project-card .link-row{
+    display: flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .project-card .link-row .arrow{
+    display: inline-block;
+    transition: transform .25s ease;
+  }
+  .project-card:hover .link-row .arrow{ transform: translateX(5px); }
+
+  /* ---------- Skills ---------- */
+  .skills-wrap{ display: flex; flex-wrap: wrap; gap: 12px; }
+  .skill-chip{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    padding: 9px 16px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--ink-muted);
+    transition: all .25s ease;
+    cursor: default;
+  }
+  .skill-chip:hover{
+    color: var(--ink);
+    border-color: var(--accent);
+    background: var(--bg-panel);
+    transform: translateY(-2px);
+  }
+
+  /* ---------- Contact ---------- */
+  .contact-panel{
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 56px 48px;
+    background: var(--bg-panel);
+    text-align: center;
+  }
+  .contact-panel h2{
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(28px, 4vw, 42px);
+    margin-bottom: 16px;
+  }
+  .contact-panel p{ color: var(--ink-muted); margin-bottom: 34px; }
+  .link-list{
+    display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;
+  }
+  .link-list a{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    padding: 12px 22px;
+    border: 1px solid var(--ink);
+    border-radius: var(--radius);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+  .link-list a::before{
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--ink);
+    transform: translateY(101%);
+    transition: transform .28s ease;
+    z-index: -1;
+  }
+  .link-list a:hover{ color: var(--bg); }
+  .link-list a:hover::before{ transform: translateY(0); }
+
+  footer{
+    text-align: center;
+    padding: 40px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-muted);
+    border-top: 1px solid var(--line);
+  }
+
+  /* ---------- Scroll reveal ---------- */
+  .reveal{ opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in{ opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 720px){
+    .about-grid{ grid-template-columns: 1fr; }
+    .about-photo{ width: 140px; height: 140px; }
+    section{ padding: 110px 6vw 70px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="statusbar">
+    <div><span class="dot"></span><span class="label">SYSTEM: ONLINE</span></div>
+    <div class="right">
+      <span id="clock">--:--:--</span>
+      <span>BKK</span>
+    </div>
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="eyebrow">PORTFOLIO / SESSION ACTIVE</div>
+    <h1>POOH</h1>
+    <p class="role">
+      <strong>Backend / Full-Stack Developer</strong> — สร้างระบบมอนิเตอร์และควบคุมเครื่องจักรในโรงงาน
+      ตั้งแต่ระดับ SCADA dashboard ไปจนถึงระบบแจ้งเตือนผ่าน LINE แบบเรียลไทม์
+    </p>
+    <div class="meta-row">
+      <div><span class="k">FOCUS</span><span class="v mono">Industrial Monitoring Systems</span></div>
+      <div><span class="k">STACK</span><span class="v mono">NestJS · Next.js · Prisma · Redis</span></div>
+      <div><span class="k">BASED IN</span><span class="v mono">Bangkok, Thailand</span></div>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section id="about">
+    <div class="sec-head reveal">
+      <span class="idx">01</span>
+      <h2>About</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="about-grid reveal">
+      <div class="about-photo">[ ใส่รูปโปรไฟล์ของคุณตรงนี้<br>แนะนำ 220×220px ]</div>
+      <div class="about-text">
+        <p>
+          ผมเป็นนักพัฒนาที่โฟกัสงานฝั่ง <span class="highlight">backend และ full-stack</span>
+          สำหรับระบบมอนิเตอร์อุตสาหกรรม โดยเฉพาะการเชื่อมต่อเครื่องจักรในโรงงานเข้ากับ dashboard
+          แบบเรียลไทม์ เพื่อให้ทีมหน้างานเห็นสถานะและปัญหาได้ทันที
+        </p>
+        <p>
+          ปัจจุบันกำลังพัฒนา <span class="highlight">Smart_Cell</span> ระบบ SCADA Dashboard
+          สำหรับควบคุมและติดตามเครื่องจักรบรรจุภัณฑ์ในโรงงาน และ
+          <span class="highlight">LoadAlert</span> ระบบติดตามงานซ่อมและแจ้งเตือนเครื่องจักรผ่าน
+          LINE Flex Message ที่ออกแบบมาให้ทีมช่างอ่านสถานะได้ในไม่กี่วินาที
+        </p>
+        <p>
+          สนใจการออกแบบระบบที่ "อ่านง่ายภายใต้ความกดดัน" — เพราะในหน้างานโรงงาน
+          ทุกวินาทีของการตัดสินใจมีค่า
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROJECTS ============ -->
+  <section id="projects">
+    <div class="sec-head reveal">
+      <span class="idx">02</span>
+      <h2>Projects</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="projects-grid">
+
+      <div class="project-card reveal">
+        <span class="tag">SCADA / FACTORY OPS</span>
+        <h3>Smart_Cell</h3>
+        <p>ระบบ SCADA Dashboard สำหรับมอนิเตอร์และควบคุมเครื่องจักรบรรจุภัณฑ์ในโรงงาน แสดงสถานะเครื่องจักรและข้อมูลการผลิตแบบเรียลไทม์</p>
+        <div class="stack">
+          <span>NestJS</span><span>Next.js</span><span>SQL Server</span><span>Prisma</span><span>Redis</span>
+        </div>
+        <a class="link-row" href="#"><span>ดูโปรเจกต์</span><span class="arrow">→</span></a>
+      </div>
+
+      <div class="project-card reveal">
+        <span class="tag">ALERTING / MESSAGING</span>
+        <h3>LoadAlert</h3>
+        <p>ระบบติดตามงานซ่อมและมอนิเตอร์เครื่องจักร พร้อมแจ้งเตือนผ่าน LINE ด้วย Flex Message ที่ออกแบบตาม design system เฉพาะสำหรับงานอุตสาหกรรม</p>
+        <div class="stack">
+          <span>Google Apps Script</span><span>LINE Messaging API</span><span>NestJS (migrating)</span>
+        </div>
+        <a class="link-row" href="#"><span>ดูโปรเจกต์</span><span class="arrow">→</span></a>
+      </div>
+
+      <div class="project-card reveal">
+        <span class="tag">ADD YOUR PROJECT</span>
+        <h3>ชื่อโปรเจกต์ที่ 3</h3>
+        <p>คำอธิบายสั้นๆ ว่าโปรเจกต์นี้ทำอะไร แก้ปัญหาอะไร และผลลัพธ์ที่ได้</p>
+        <div class="stack">
+          <span>Tech A</span><span>Tech B</span>
+        </div>
+        <a class="link-row" href="#"><span>ดูโปรเจกต์</span><span class="arrow">→</span></a>
+      </div>
+
+      <div class="project-card reveal">
+        <span class="tag">ADD YOUR PROJECT</span>
+        <h3>ชื่อโปรเจกต์ที่ 4</h3>
+        <p>คำอธิบายสั้นๆ ว่าโปรเจกต์นี้ทำอะไร แก้ปัญหาอะไร และผลลัพธ์ที่ได้</p>
+        <div class="stack">
+          <span>Tech A</span><span>Tech B</span>
+        </div>
+        <a class="link-row" href="#"><span>ดูโปรเจกต์</span><span class="arrow">→</span></a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ SKILLS ============ -->
+  <section id="skills">
+    <div class="sec-head reveal">
+      <span class="idx">03</span>
+      <h2>Skills</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="skills-wrap reveal">
+      <span class="skill-chip">TypeScript</span>
+      <span class="skill-chip">NestJS</span>
+      <span class="skill-chip">Next.js / React</span>
+      <span class="skill-chip">SQL Server</span>
+      <span class="skill-chip">Prisma ORM</span>
+      <span class="skill-chip">Redis</span>
+      <span class="skill-chip">Google Apps Script</span>
+      <span class="skill-chip">LINE Messaging API</span>
+      <span class="skill-chip">REST API Design</span>
+      <span class="skill-chip">Docker</span>
+      <span class="skill-chip">Git</span>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section id="contact">
+    <div class="contact-panel reveal">
+      <h2>มาคุยงานกัน</h2>
+      <p>เปิดรับโปรเจกต์และโอกาสร่วมงานใหม่ๆ — ติดต่อได้ทางช่องทางด้านล่าง</p>
+      <div class="link-list">
+        <a href="mailto:you@example.com">EMAIL</a>
+        <a href="https://github.com/yourusername" target="_blank" rel="noopener">GITHUB</a>
+        <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener">LINKEDIN</a>
+        <a href="#" target="_blank" rel="noopener">LINE</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="mono">© 2026 POOH — BUILT WITH HTML / CSS / JS</footer>
+
+<script>
+  // Live clock (Asia/Bangkok)
+  function updateClock(){
+    const now = new Date();
+    const bkk = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Asia/Bangkok',
+      hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+    }).format(now);
+    document.getElementById('clock').textContent = bkk;
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        entry.target.classList.add('in');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
