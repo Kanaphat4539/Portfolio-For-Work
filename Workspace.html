@@ -491,6 +491,7 @@
   .arch-step .step-sub{ display: block; font-size: 10.5px; color: hsl(var(--muted-foreground)); }
 
   /* ---------- Achievements / Certificate ---------- */
+  .cert-stack{ display: grid; gap: 28px; }
   .cert-panel{
     display: grid;
     grid-template-columns: 1.15fr 1fr;
@@ -502,6 +503,28 @@
     padding: 32px;
     position: relative;
     overflow: hidden;
+  }
+  .cert-panel.portrait-doc{
+    grid-template-columns: 0.85fr 1.15fr;
+  }
+  .cert-visual-col{ display: flex; flex-direction: column; gap: 10px; }
+  .doc-lang-tabs{
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  }
+  .doc-lang-group{ display: inline-flex; gap: 6px; }
+  .doc-lang-btn{
+    background: hsl(var(--background));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+    color: hsl(var(--muted-foreground));
+    font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.06em;
+    padding: 5px 10px; cursor: inherit;
+    transition: all .2s ease;
+  }
+  .doc-lang-btn:hover{ border-color: hsl(var(--amber)); color: hsl(var(--foreground)); }
+  .doc-lang-btn.active{
+    background: hsl(var(--amber)); color: hsl(var(--background));
+    border-color: hsl(var(--amber)); font-weight: 600;
   }
   .cert-image-wrap{
     position: relative;
@@ -515,10 +538,19 @@
     width: 100%;
     text-align: left;
   }
+  .cert-image-wrap.portrait-frame{
+    background: hsl(var(--muted));
+    display: flex; align-items: center; justify-content: center;
+    padding: 14px;
+  }
   .cert-image-wrap img{
     width: 100%; height: auto; display: block;
     border-radius: 1px;
     transition: transform .45s ease;
+  }
+  .cert-image-wrap.portrait-frame img{
+    width: auto; max-width: 100%; max-height: 440px;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
   }
   .cert-image-wrap:hover img{ transform: scale(1.02); }
   .cert-zoom-cue{
@@ -812,7 +844,7 @@
     .top-nav{ display: none; }
     .hero .meta-row{ grid-template-columns: repeat(2, 1fr); }
     .project-card.featured{ grid-template-columns: 1fr; }
-    .cert-panel{ grid-template-columns: 1fr; }
+    .cert-panel, .cert-panel.portrait-doc{ grid-template-columns: 1fr; }
     .cert-proof-strip{ grid-template-columns: repeat(2, 1fr); }
   }
 
@@ -853,7 +885,7 @@
     <nav class="top-nav" aria-label="Primary Navigation">
       <a href="#about"><span>01</span>ABOUT</a>
       <a href="#projects"><span>02</span>PROJECTS</a>
-      <a href="#achievements"><span>03</span>ACHIEVEMENTS</a>
+      <a href="#achievements"><span>03</span>EXPERIENCE</a>
       <a href="#skills"><span>04</span>SKILLS</a>
       <a href="#contact"><span>05</span>CONTACT</a>
     </nav>
@@ -885,7 +917,7 @@
 
       <div class="hero-actions">
         <a href="#projects" class="btn-primary">ดูโปรเจกต์ทั้งหมด <span>→</span></a>
-        <a href="#achievements" class="btn-ghost">เกียรติบัตร TESA 2026</a>
+        <a href="#achievements" class="btn-ghost">ประสบการณ์ SCG &amp; TESA 2026</a>
         <a href="https://github.com/Kanaphat4539" target="_blank" rel="noopener" class="btn-ghost">GitHub ↗</a>
       </div>
 
@@ -917,17 +949,17 @@
 
         <div class="about-text">
           <p>
-            สวัสดีครับ ผมชื่อ <span class="highlight">คณพัฒน์ รุ่งรพีพรพงษ์ (ภู)</span> เป็น
-            <span class="highlight">Full-Stack Developer</span> ที่พัฒนาซอฟต์แวร์แบบ End-to-End
+            สวัสดีครับ ผมชื่อ <span class="highlight">คณพัฒน์ รุ่งรพีพรพงษ์ (ภู)</span> นักศึกษาสาขา
+            <span class="highlight">วิศวกรรมคอมพิวเตอร์ คณะวิศวกรรมศาสตร์ สจล. วิทยาเขตชุมพรเขตรอุดมศักดิ์ (KMITL)</span>
+            และ <span class="highlight">Full-Stack Developer</span> ที่พัฒนาซอฟต์แวร์แบบ End-to-End
             ตั้งแต่หน้าบ้านที่ตอบสนองไว (Next.js / React) และระบบหลังบ้านที่เสถียร (NestJS / FastAPI / Prisma / TypeORM)
             ไปจนถึงการเชื่อมต่อข้อมูลเรียลไทม์ผ่าน WebSocket, MQTT และระบบแจ้งเตือนอัตโนมัติ
           </p>
           <p>
-            ประสบการณ์ของผมครอบคลุมทั้ง <span class="highlight">ระบบอุตสาหกรรมและองค์กร</span>
-            อย่าง <span class="highlight">Smart_Cell</span> (SCADA Dashboard), <span class="highlight">LoadAlert</span> (LINE Alerting)
-            และ <span class="highlight">Book a Badminton Court</span> (ระบบจองคอร์ดพร้อม QR Check-in)
-            รวมถึง <span class="highlight">ระบบ IoT / AIoT</span> ที่เชื่อมซอฟต์แวร์เข้ากับฮาร์ดแวร์จริง
-            อย่าง <span class="highlight">Security Door Lock</span> (ESP32-CAM + RFID + WebSocket)
+            ผมผ่านประสบการณ์ฝึกงานจริงด้าน <span class="highlight">New Value Chain Innovation ณ บริษัท ปูนซิเมนต์ไทย (ทุ่งสง) จำกัด (SCG)</span>
+            โดยจัดทำระบบ <span class="highlight">LoadAlert</span> จากโจทย์หน้างานจริง รวมถึงพัฒนาโปรเจกต์
+            <span class="highlight">Smart_Cell</span> (SCADA Dashboard), <span class="highlight">Book a Badminton Court</span> (ระบบจองคอร์ดพร้อม QR Check-in),
+            <span class="highlight">Security Door Lock</span> (ESP32-CAM + RFID + WebSocket)
             และ <span class="highlight">Chumphon Robusta AIoT Platform</span> จากเวที TESA Top Gun Rally 2026
           </p>
           <p>
@@ -941,12 +973,12 @@
               <div class="lbl">END-TO-END PROJECTS</div>
             </div>
             <div class="telemetry-box">
-              <div class="val">TESA #20</div>
-              <div class="lbl">TOP GUN RALLY 2026</div>
+              <div class="val">SCG · 12 WKS</div>
+              <div class="lbl">INTERNSHIP · THUNG SONG</div>
             </div>
             <div class="telemetry-box">
-              <div class="val">FULL-STACK</div>
-              <div class="lbl">UI · API · DB · IOT</div>
+              <div class="val">TESA #20</div>
+              <div class="lbl">TOP GUN RALLY 2026</div>
             </div>
           </div>
         </div>
@@ -1107,13 +1139,13 @@
         <!-- Project 5: LoadAlert -->
         <article class="project-card reveal" data-categories="all fullstack industrial" data-project="load-alert">
           <div class="card-top-meta">
-            <span class="tag">INDUSTRIAL / ALERTING ENGINE</span>
-            <span class="badge-pill">INTERNAL SYSTEM</span>
+            <span class="tag">SCG INTERNSHIP / ALERTING ENGINE</span>
+            <span class="badge-pill">SCG THUNG SONG</span>
           </div>
           <h3>LoadAlert</h3>
           <p>
-            ระบบติดตามงานซ่อมและมอนิเตอร์เครื่องจักร พร้อมแจ้งเตือนผ่าน LINE ด้วย Flex Message
-            ที่ออกแบบตาม Design System เฉพาะสำหรับงานอุตสาหกรรม เพื่อให้ทีมช่างอ่านสถานะปัญหาได้ภายในไม่กี่วินาที
+            โปรเจกต์ Action Learning ระหว่างฝึกงานที่แผนก New Value Chain Innovation บริษัท ปูนซิเมนต์ไทย (ทุ่งสง) จำกัด (SCG)
+            ระบบติดตามงานซ่อมและมอนิเตอร์เครื่องจักร พร้อมแจ้งเตือนผ่าน LINE Flex Message ที่ออกแบบให้ทีมช่างอ่านสถานะปัญหาได้ภายในไม่กี่วินาที
           </p>
           <div class="stack">
             <span>NestJS</span><span>LINE Messaging API</span><span>Google Apps Script</span><span>Flex Message</span>
@@ -1122,88 +1154,154 @@
             <button class="link-row open-project-btn" data-project="load-alert">
               <span>ดูรายละเอียด</span><span class="arrow">→</span>
             </button>
-            <span class="mono" style="font-size:11px; color:hsl(var(--muted-foreground));">PRIVATE / FACTORY</span>
+            <span class="mono" style="font-size:11px; color:hsl(var(--muted-foreground));">SCG ACTION LEARNING</span>
           </div>
         </article>
 
       </div>
     </section>
 
-    <!-- ============ 03 ACHIEVEMENTS & CERTIFICATION ============ -->
+    <!-- ============ 03 EXPERIENCE & CERTIFICATIONS ============ -->
     <section id="achievements">
       <div class="sec-head reveal">
         <span class="idx">03</span>
-        <h2>Achievements &amp; Certification</h2>
+        <h2>Experience &amp; Certifications</h2>
         <div class="rule"></div>
       </div>
 
-      <div class="cert-panel reveal">
-        <button class="cert-image-wrap" id="open-cert-lightbox" aria-label="Open TESA Top Gun Rally 2026 Certificate in full screen">
-          <img src="assets/tesa-topgun-2026-cert.jpg" alt="Certificate of Participation — The TESA Top Gun Rally 2026 presented to Kanaphat Rungrapeepornpong">
-          <span class="cert-zoom-cue">INSPECT FULL CERTIFICATE ↗</span>
-        </button>
+      <div class="cert-stack">
 
-        <div class="cert-info">
-          <span class="tag">CERTIFICATE OF PARTICIPATION // ทีม TGR-51 (กาแฟอยู่นี่)</span>
-          <h3>The TESA Top Gun Rally 2026 (ครั้งที่ 20)</h3>
-
-          <figure class="cert-quote">
-            <blockquote>
-              “<span>ทุกเมล็ด</span> ตรวจสอบได้ · <span>ทุกกระสอบ</span> สะท้อนคุณค่าจริง · <span>ทุกคำสั่งซื้อ</span> จับคู่อย่างชาญฉลาด”
-            </blockquote>
-            <figcaption>— หัวใจของทีม TGR-51 (กาแฟอยู่นี่) · คิดให้ไกลถึงตลาดยุคใหม่ และพิสูจน์แล้ววันนี้ว่าสร้างขึ้นจริงได้</figcaption>
-          </figure>
-
-          <p class="desc">
-            ผ่านการฝึกอบรมและการแข่งขันพัฒนาสมองกลฝังตัวระดับประเทศตลอด 7 วันเต็ม ณ สจล. วิทยาเขตชุมพรเขตรอุดมศักดิ์
-            ร่วมกับทีมสร้าง <strong style="color:hsl(var(--foreground));">Chumphon Robusta AIoT Platform</strong>
-            ที่เปลี่ยนกระสอบกาแฟ 60 กก. ให้มี <strong style="color:hsl(var(--foreground));">ใบรับรองคุณภาพดิจิทัล</strong>
-            โดยใช้ฮาร์ดแวร์เป็น Single Source of Truth ตัดการกรอกมือต้นน้ำทั้งหมด และทำงานจริงครบทั้ง 3 Track
-          </p>
-
-          <div class="cert-meta">
-            <div>
-              <span class="k">RECIPIENT</span>
-              <span class="v">Kanaphat Rungrapeepornpong</span>
+        <!-- Credential 1: SCG Internship Certificate -->
+        <div class="cert-panel portrait-doc reveal">
+          <div class="cert-visual-col">
+            <div class="doc-lang-tabs">
+              <span class="mono" style="font-size:10.5px; color:hsl(var(--muted-foreground)); letter-spacing:0.06em;">OFFICIAL LETTER · 2 PAGES</span>
+              <div class="doc-lang-group" role="tablist" aria-label="SCG certificate language">
+                <button type="button" class="doc-lang-btn active" data-scg-lang="th" role="tab" aria-selected="true">ภาษาไทย (TH)</button>
+                <button type="button" class="doc-lang-btn" data-scg-lang="en" role="tab" aria-selected="false">ENGLISH (EN)</button>
+              </div>
             </div>
-            <div>
-              <span class="k">TEAM / ID</span>
-              <span class="v">TGR-51 (กาแฟอยู่นี่)</span>
-            </div>
-            <div>
-              <span class="k">ORGANIZED BY</span>
-              <span class="v">TESA &amp; KMITL</span>
-            </div>
-            <div>
-              <span class="k">DATE &amp; VENUE</span>
-              <span class="v">Nov 15–21, 2026 · Chumphon</span>
-            </div>
+            <button class="cert-image-wrap portrait-frame" id="open-scg-lightbox" aria-label="Open SCG Internship Certificate in full screen">
+              <img id="scg-preview-img" src="assets/scg-cert-th.png" alt="หนังสือรับรองการฝึกงาน บริษัท ปูนซิเมนต์ไทย (ทุ่งสง) จำกัด — นายคณพัฒน์ รุ่งรพีพรพงษ์">
+              <span class="cert-zoom-cue">INSPECT DOCUMENT ↗</span>
+            </button>
           </div>
 
-          <div class="cert-actions">
-            <button class="btn-primary" id="open-cert-btn">ดูเกียรติบัตรขนาดเต็ม</button>
-            <button class="btn-ghost open-project-btn" data-project="robusta-aiot">ดูโปรเจกต์ TGR-51 →</button>
+          <div class="cert-info">
+            <span class="tag">INDUSTRIAL INTERNSHIP CERTIFICATE // SCG THUNG SONG</span>
+            <h3>บริษัท ปูนซิเมนต์ไทย (ทุ่งสง) จำกัด (SCG)</h3>
+
+            <figure class="cert-quote">
+              <blockquote>
+                “เรียนรู้การใช้องค์ความรู้ในการปฏิบัติงานจริง <span>(Action Learning)</span> โดยจัดทำระบบ <span>LoadAlert</span> — ผลการฝึกงาน <span>เป็นที่น่าพอใจ</span>”
+              </blockquote>
+              <figcaption>— รับรองโดย นายมนุญโญ ดิษเจริญ · People Management Manager-TS · 26 มิถุนายน 2569</figcaption>
+            </figure>
+
+            <p class="desc">
+              สำเร็จการฝึกงานหลักสูตร 12 สัปดาห์ ณ สังกัด <strong style="color:hsl(var(--foreground));">New Value Chain Innovation Department</strong>
+              บริษัท ปูนซิเมนต์ไทย (ทุ่งสง) จำกัด (The Siam Cement (Thung Song) Co., Ltd.)
+              โดยนำความรู้ด้านวิศวกรรมคอมพิวเตอร์และ Full-Stack Development มาสร้างระบบ <strong style="color:hsl(var(--foreground));">LoadAlert</strong>
+              เพื่อใช้งานจริงในสภาพแวดล้อมโรงงานอุตสาหกรรม
+            </p>
+
+            <div class="cert-meta">
+              <div>
+                <span class="k">DEPARTMENT</span>
+                <span class="v">New Value Chain Innovation</span>
+              </div>
+              <div>
+                <span class="k">DURATION</span>
+                <span class="v">12 Weeks · Apr 1 – Jun 26, 2026</span>
+              </div>
+              <div>
+                <span class="k">EDUCATION</span>
+                <span class="v">B.Eng. Computer Eng., KMITL</span>
+              </div>
+              <div>
+                <span class="k">LOCATION</span>
+                <span class="v">Thung Song, Nakhon Si Thammarat</span>
+              </div>
+            </div>
+
+            <div class="cert-actions">
+              <button type="button" class="btn-primary" id="open-scg-btn">ดูหนังสือรับรองขนาดเต็ม</button>
+              <a class="btn-ghost" href="assets/scg-internship-certificate.pdf" target="_blank" rel="noopener">เปิดไฟล์ PDF ↗</a>
+              <button type="button" class="btn-ghost open-project-btn" data-project="load-alert">ดูโปรเจกต์ LoadAlert →</button>
+            </div>
           </div>
         </div>
 
-        <div class="cert-proof-strip" aria-label="Verified Engineering Benchmarks from TGR-51">
-          <div class="proof-item">
-            <div class="pv">0.15s · 0.00%</div>
-            <div class="pk">ESP32 v24 MOISTURE · 5-PRESS JITTER</div>
+        <!-- Credential 2: TESA Top Gun Rally 2026 -->
+        <div class="cert-panel reveal">
+          <button class="cert-image-wrap" id="open-cert-lightbox" aria-label="Open TESA Top Gun Rally 2026 Certificate in full screen">
+            <img src="assets/tesa-topgun-2026-cert.jpg" alt="Certificate of Participation — The TESA Top Gun Rally 2026 presented to Kanaphat Rungrapeepornpong">
+            <span class="cert-zoom-cue">INSPECT FULL CERTIFICATE ↗</span>
+          </button>
+
+          <div class="cert-info">
+            <span class="tag">CERTIFICATE OF PARTICIPATION // ทีม TGR-51 (กาแฟอยู่นี่)</span>
+            <h3>The TESA Top Gun Rally 2026 (ครั้งที่ 20)</h3>
+
+            <figure class="cert-quote">
+              <blockquote>
+                “<span>ทุกเมล็ด</span> ตรวจสอบได้ · <span>ทุกกระสอบ</span> สะท้อนคุณค่าจริง · <span>ทุกคำสั่งซื้อ</span> จับคู่อย่างชาญฉลาด”
+              </blockquote>
+              <figcaption>— หัวใจของทีม TGR-51 (กาแฟอยู่นี่) · คิดให้ไกลถึงตลาดยุคใหม่ และพิสูจน์แล้ววันนี้ว่าสร้างขึ้นจริงได้</figcaption>
+            </figure>
+
+            <p class="desc">
+              ผ่านการฝึกอบรมและการแข่งขันพัฒนาสมองกลฝังตัวระดับประเทศตลอด 7 วันเต็ม ณ สจล. วิทยาเขตชุมพรเขตรอุดมศักดิ์
+              ร่วมกับทีมสร้าง <strong style="color:hsl(var(--foreground));">Chumphon Robusta AIoT Platform</strong>
+              ที่เปลี่ยนกระสอบกาแฟ 60 กก. ให้มี <strong style="color:hsl(var(--foreground));">ใบรับรองคุณภาพดิจิทัล</strong>
+              โดยใช้ฮาร์ดแวร์เป็น Single Source of Truth ตัดการกรอกมือต้นน้ำทั้งหมด และทำงานจริงครบทั้ง 3 Track
+            </p>
+
+            <div class="cert-meta">
+              <div>
+                <span class="k">RECIPIENT</span>
+                <span class="v">Kanaphat Rungrapeepornpong</span>
+              </div>
+              <div>
+                <span class="k">TEAM / ID</span>
+                <span class="v">TGR-51 (กาแฟอยู่นี่)</span>
+              </div>
+              <div>
+                <span class="k">ORGANIZED BY</span>
+                <span class="v">TESA &amp; KMITL</span>
+              </div>
+              <div>
+                <span class="k">DATE &amp; VENUE</span>
+                <span class="v">Nov 15–21, 2026 · Chumphon</span>
+              </div>
+            </div>
+
+            <div class="cert-actions">
+              <button type="button" class="btn-primary" id="open-cert-btn">ดูเกียรติบัตรขนาดเต็ม</button>
+              <button type="button" class="btn-ghost open-project-btn" data-project="robusta-aiot">ดูโปรเจกต์ TGR-51 →</button>
+            </div>
           </div>
-          <div class="proof-item">
-            <div class="pv">0.26s CPU</div>
-            <div class="pk">RPI 5 YOLO26n · 7-CLASS EDGE AI</div>
-          </div>
-          <div class="proof-item">
-            <div class="pv">8/8 SOLD · #1–2</div>
-            <div class="pk">LIVE ARENA (62 TEAMS · PR 0.9409)</div>
-          </div>
-          <div class="proof-item">
-            <div class="pv">3,500–4,500 ฿</div>
-            <div class="pk">AIOT KIT COST · 4–6× LOWER THAN MARKET</div>
+
+          <div class="cert-proof-strip" aria-label="Verified Engineering Benchmarks from TGR-51">
+            <div class="proof-item">
+              <div class="pv">0.15s · 0.00%</div>
+              <div class="pk">ESP32 v24 MOISTURE · 5-PRESS JITTER</div>
+            </div>
+            <div class="proof-item">
+              <div class="pv">0.26s CPU</div>
+              <div class="pk">RPI 5 YOLO26n · 7-CLASS EDGE AI</div>
+            </div>
+            <div class="proof-item">
+              <div class="pv">8/8 SOLD · #1–2</div>
+              <div class="pk">LIVE ARENA (62 TEAMS · PR 0.9409)</div>
+            </div>
+            <div class="proof-item">
+              <div class="pv">3,500–4,500 ฿</div>
+              <div class="pk">AIOT KIT COST · 4–6× LOWER THAN MARKET</div>
+            </div>
           </div>
         </div>
+
       </div>
     </section>
 
@@ -1333,10 +1431,16 @@
   <div class="modal-backdrop" id="cert-lightbox" role="dialog" aria-modal="true" aria-label="Certificate Preview" aria-hidden="true">
     <div class="lightbox-dialog">
       <div class="lightbox-top">
-        <span>THE TESA TOP GUN RALLY 2026 — CERTIFICATE OF PARTICIPATION (TGR-51)</span>
-        <button class="modal-close" id="close-cert-lightbox" aria-label="Close certificate preview">×</button>
+        <span id="lightbox-title">THE TESA TOP GUN RALLY 2026 — CERTIFICATE OF PARTICIPATION (TGR-51)</span>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div class="doc-lang-group" id="lightbox-scg-tabs" style="display:none;">
+            <button type="button" class="doc-lang-btn active" data-scg-lang="th">TH</button>
+            <button type="button" class="doc-lang-btn" data-scg-lang="en">EN</button>
+          </div>
+          <button class="modal-close" id="close-cert-lightbox" aria-label="Close certificate preview">×</button>
+        </div>
       </div>
-      <img src="assets/tesa-topgun-2026-cert.jpg" alt="The TESA Top Gun Rally 2026 Certificate — Kanaphat Rungrapeepornpong">
+      <img id="lightbox-img" src="assets/tesa-topgun-2026-cert.jpg" alt="Certificate preview">
     </div>
   </div>
 
@@ -1524,17 +1628,18 @@
       repo: null
     },
     'load-alert': {
-      tag: 'INDUSTRIAL / ALERTING ENGINE',
+      tag: 'SCG INTERNSHIP / ALERTING ENGINE',
       title: 'LoadAlert',
-      summary: 'ระบบติดตามงานซ่อมบำรุงและมอนิเตอร์ความผิดปกติของเครื่องจักร พร้อมส่งการแจ้งเตือนเข้ากลุ่ม LINE ด้วย Flex Message ที่มีโครงสร้างชัดเจน',
-      arch: '[Machine Status / Maintenance Events] ──▶ [Google Apps Script / NestJS Migration] ──LINE Messaging API──▶ [Structured Flex Message Alerts for Technicians]',
+      summary: 'โปรเจกต์ Action Learning ระหว่างฝึกงาน 12 สัปดาห์ ณ แผนก New Value Chain Innovation บริษัท ปูนซิเมนต์ไทย (ทุ่งสง) จำกัด (SCG) — ระบบติดตามงานซ่อมบำรุงและมอนิเตอร์เครื่องจักร พร้อมส่งการแจ้งเตือนเข้ากลุ่ม LINE ด้วย Flex Message ที่มีโครงสร้างชัดเจน',
+      arch: '[SCG Thung Song Machine / Maintenance Events] ──▶ [Google Apps Script / NestJS Migration] ──LINE Messaging API──▶ [Structured Flex Message Alerts for Technicians]',
       highlights: [
+        'พัฒนาจากโจทย์หน้างานจริง (Action Learning) ระหว่างฝึกงานที่บริษัท ปูนซิเมนต์ไทย (ทุ่งสง) จำกัด (1 เม.ย. – 26 มิ.ย. 2569) โดยได้รับการประเมินผลระดับ “เป็นที่น่าพอใจ” (Satisfactory)',
         'ออกแบบ Flex Message Design System เฉพาะสำหรับงานโรงงาน แยกสี ลำดับความสำคัญ และข้อมูลเครื่องจักรให้ช่างอ่านรู้เรื่องในไม่กี่วินาที',
         'ติดตามสถานะงานซ่อมตั้งแต่แจ้งเหตุจนถึงปิดงาน ช่วยลด Downtime และเพิ่มความโปร่งใสในการสื่อสารของทีมซ่อมบำรุง',
         'วางโครงสร้างและพัฒนาเพื่อ Migrate จาก Google Apps Script สู่ NestJS Backend เพื่อรองรับการขยายระบบในอนาคต'
       ],
       stack: ['NestJS', 'LINE Messaging API', 'Flex Message', 'Google Apps Script', 'TypeScript'],
-      status: 'INTERNAL ENTERPRISE PROJECT (PRIVATE REPO)',
+      status: 'SCG THUNG SONG · ACTION LEARNING PROJECT',
       repo: null
     }
   };
@@ -1593,15 +1698,74 @@
     btn.addEventListener('click', () => openProjectModal(btn.dataset.project));
   });
 
-  function openCertLightbox() {
+  const lightboxTitle = document.getElementById('lightbox-title');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxScgTabs = document.getElementById('lightbox-scg-tabs');
+  const scgPreviewImg = document.getElementById('scg-preview-img');
+  let activeScgLang = 'th';
+  let activeLightboxDoc = 'tesa';
+
+  const SCG_DOCS = {
+    th: {
+      src: 'assets/scg-cert-th.png',
+      alt: 'หนังสือรับรองการฝึกงาน บริษัท ปูนซิเมนต์ไทย (ทุ่งสง) จำกัด — ฉบับภาษาไทย',
+      title: 'SCG THUNG SONG — หนังสือรับรองการฝึกงาน (ภาษาไทย)'
+    },
+    en: {
+      src: 'assets/scg-cert-en.png',
+      alt: 'Internship Certificate — The Siam Cement (Thung Song) Co., Ltd. (English)',
+      title: 'THE SIAM CEMENT (THUNG SONG) CO., LTD. — INTERNSHIP CERTIFICATE (EN)'
+    }
+  };
+
+  function setScgLang(lang) {
+    activeScgLang = lang === 'en' ? 'en' : 'th';
+    const doc = SCG_DOCS[activeScgLang];
+    scgPreviewImg.src = doc.src;
+    scgPreviewImg.alt = doc.alt;
+
+    document.querySelectorAll('[data-scg-lang]').forEach(btn => {
+      const isActive = btn.dataset.scgLang === activeScgLang;
+      btn.classList.toggle('active', isActive);
+      if (btn.hasAttribute('aria-selected')) btn.setAttribute('aria-selected', String(isActive));
+    });
+
+    if (activeLightboxDoc === 'scg' && certLightbox.classList.contains('open')) {
+      lightboxImg.src = doc.src;
+      lightboxImg.alt = doc.alt;
+      lightboxTitle.textContent = doc.title;
+    }
+  }
+
+  document.querySelectorAll('[data-scg-lang]').forEach(btn => {
+    btn.addEventListener('click', () => setScgLang(btn.dataset.scgLang));
+  });
+
+  function openCertLightbox(docType) {
+    activeLightboxDoc = docType === 'scg' ? 'scg' : 'tesa';
+    if (activeLightboxDoc === 'scg') {
+      const doc = SCG_DOCS[activeScgLang];
+      lightboxTitle.textContent = doc.title;
+      lightboxImg.src = doc.src;
+      lightboxImg.alt = doc.alt;
+      lightboxScgTabs.style.display = 'inline-flex';
+    } else {
+      lightboxTitle.textContent = 'THE TESA TOP GUN RALLY 2026 — CERTIFICATE OF PARTICIPATION (TGR-51)';
+      lightboxImg.src = 'assets/tesa-topgun-2026-cert.jpg';
+      lightboxImg.alt = 'The TESA Top Gun Rally 2026 Certificate — Kanaphat Rungrapeepornpong';
+      lightboxScgTabs.style.display = 'none';
+    }
+
     certLightbox.classList.add('open');
     certLightbox.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
     document.getElementById('close-cert-lightbox').focus();
   }
 
-  document.getElementById('open-cert-lightbox').addEventListener('click', openCertLightbox);
-  document.getElementById('open-cert-btn').addEventListener('click', openCertLightbox);
+  document.getElementById('open-cert-lightbox').addEventListener('click', () => openCertLightbox('tesa'));
+  document.getElementById('open-cert-btn').addEventListener('click', () => openCertLightbox('tesa'));
+  document.getElementById('open-scg-lightbox').addEventListener('click', () => openCertLightbox('scg'));
+  document.getElementById('open-scg-btn').addEventListener('click', () => openCertLightbox('scg'));
   document.getElementById('close-project-modal').addEventListener('click', closeAllModals);
   document.getElementById('close-cert-lightbox').addEventListener('click', closeAllModals);
 
